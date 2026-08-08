@@ -464,6 +464,132 @@
         </div>
 
     </nav>
+    <!-- REPORT MODAL -->
+
+<div class="report-overlay" id="reportOverlay">
+
+    <div class="report-modal">
+
+        <button class="close-report" onclick="closeReport()">
+            ×
+        </button>
+
+        <h2>Laporkan Barang</h2>
+
+        <p class="report-subtitle">
+            Bantu pemilik menemukan barangnya kembali.
+        </p>
+
+
+        <!-- REPORT TYPE -->
+
+        <label>Jenis Laporan</label>
+
+        <div class="report-types">
+
+            <button
+                type="button"
+                class="report-type active"
+                onclick="selectReportType('lost', this)">
+
+                🔴 Barang Hilang
+
+            </button>
+
+            <button
+                type="button"
+                class="report-type"
+                onclick="selectReportType('found', this)">
+
+                🟢 Barang Ditemukan
+
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form id="reportForm" onsubmit="submitReport(event)">
+
+            <input
+                type="hidden"
+                id="reportType"
+                value="lost"
+            >
+
+
+            <label for="itemName">
+                Nama Barang
+            </label>
+
+            <input
+                type="text"
+                id="itemName"
+                placeholder="Contoh: Tas hitam"
+                required
+            >
+
+
+            <label for="itemLocation">
+                Lokasi
+            </label>
+
+            <input
+                type="text"
+                id="itemLocation"
+                placeholder="Contoh: Perpustakaan"
+                required
+            >
+
+
+            <label for="itemDate">
+                Tanggal
+            </label>
+
+            <input
+                type="date"
+                id="itemDate"
+                required
+            >
+
+
+            <label for="itemDescription">
+                Deskripsi
+            </label>
+
+            <textarea
+                id="itemDescription"
+                placeholder="Jelaskan ciri-ciri barang..."
+                required>
+            </textarea>
+
+
+            <label for="itemContact">
+                Kontak
+            </label>
+
+            <input
+                type="text"
+                id="itemContact"
+                placeholder="Email / WhatsApp"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="submit-report">
+
+                Kirim Laporan
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 </div>
 
