@@ -13,6 +13,95 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+        <script>
+
+    // =========================
+    // SEARCH ITEMS
+    // =========================
+
+    function searchItems() {
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const searchText =
+            searchInput.value.toLowerCase();
+
+        const items =
+            document.querySelectorAll(".item");
+
+
+        items.forEach(function(item) {
+
+            const itemName =
+                item.querySelector("h3")
+                    .textContent
+                    .toLowerCase();
+
+            const itemLocation =
+                item.querySelector("p")
+                    .textContent
+                    .toLowerCase();
+
+
+            if (
+                itemName.includes(searchText) ||
+                itemLocation.includes(searchText)
+            ) {
+
+                item.style.display = "flex";
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // =========================
+    // FILTER ITEMS
+    // =========================
+
+    function filterItems(type) {
+
+        const items =
+            document.querySelectorAll(".item");
+
+
+        items.forEach(function(item) {
+
+            if (item.dataset.type === type) {
+
+                item.style.display = "flex";
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // =========================
+    // REPORT ITEM
+    // =========================
+
+    function reportItem() {
+
+        alert(
+            "Fitur laporan akan segera tersedia! 📦"
+        );
+
+    }
+
+</script>
 
         body {
             background: #f4f7fb;
