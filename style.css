@@ -577,3 +577,202 @@ footer small {
         padding: 70px 20px;
     }
 }
+/* =========================
+   REPORT MODAL
+========================= */
+
+.report-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    display: none;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    z-index: 999;
+}
+
+.report-overlay.active {
+    display: flex;
+}
+
+.report-modal {
+    width: 100%;
+    max-width: 430px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 25px 25px 0 0;
+
+    padding: 25px 20px 30px;
+
+    position: relative;
+
+    animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+
+}
+
+.close-report {
+    position: absolute;
+
+    right: 18px;
+    top: 18px;
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.report-modal h2 {
+    font-size: 22px;
+
+    margin-bottom: 5px;
+}
+
+.report-subtitle {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 25px;
+}
+
+
+/* FORM LABEL */
+
+.report-modal label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    margin-bottom: 7px;
+
+    margin-top: 15px;
+}
+
+
+/* REPORT TYPE */
+
+.report-types {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+.report-type {
+    flex: 1;
+
+    border: none;
+
+    padding: 12px 8px;
+
+    border-radius: 12px;
+
+    background: #f3f4f6;
+
+    color: #666;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 12px;
+}
+
+.report-type.active {
+    background: #e0e7ff;
+
+    color: #4f46e5;
+}
+
+
+/* INPUT */
+
+.report-modal input,
+.report-modal textarea {
+    width: 100%;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    padding: 13px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.report-modal input:focus,
+.report-modal textarea:focus {
+    border-color: #4f46e5;
+
+    box-shadow: 0 0 0 3px #eef2ff;
+}
+
+.report-modal textarea {
+    height: 100px;
+
+    resize: none;
+}
+
+
+/* SUBMIT */
+
+.submit-report {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.submit-report:hover {
+    background: #4338ca;
+}
