@@ -1,171 +1,292 @@
+<script>
+
 // ========================================
-// SCHOOLFIND JAVASCRIPT
+// DEFAULT ITEMS
 // ========================================
 
-
-// ----------------------------------------
-// SAMPLE LOST & FOUND DATA
-// ----------------------------------------
-
-const items = [
+const defaultItems = [
 
     {
-        name: "Black Backpack",
-        location: "School Library",
-        date: "Today",
-        icon: "🎒",
-        description: "Black backpack found near the library entrance.",
-        status: "FOUND"
+        name: "Tas Hitam",
+        location: "Perpustakaan",
+        date: "8 Agustus 2026",
+        description: "Tas hitam ditemukan di perpustakaan.",
+        type: "lost",
+        icon: "🎒"
     },
 
     {
-        name: "Wireless Headphones",
-        location: "Classroom 10A",
-        date: "Yesterday",
-        icon: "🎧",
-        description: "Wireless headphones found under a classroom desk.",
-        status: "FOUND"
+        name: "Botol Minum",
+        location: "Lapangan Sekolah",
+        date: "8 Agustus 2026",
+        description: "Botol minum ditemukan di lapangan.",
+        type: "found",
+        icon: "🥤"
     },
 
     {
-        name: "Set of Keys",
-        location: "School Parking",
-        date: "2 days ago",
-        icon: "🔑",
-        description: "A set of keys found near the school parking area.",
-        status: "FOUND"
+        name: "Kacamata",
+        location: "Ruang Kelas 9A",
+        date: "7 Agustus 2026",
+        description: "Kacamata ditemukan di kelas 9A.",
+        type: "lost",
+        icon: "👓"
     }
 
 ];
 
 
-// ----------------------------------------
-// SEARCH FUNCTION
-// ----------------------------------------
+// ========================================
+// GET ITEMS FROM LOCAL STORAGE
+// ========================================
+
+function getItems() {
+
+    const savedItems =
+        localStorage.getItem("schoolFindItems");
+
+
+    if (savedItems) {
+
+        return JSON.parse(savedItems);
+
+    }
+
+
+    localStorage.setItem(
+        "schoolFindItems",
+        JSON.stringify(defaultItems)
+    );
+
+
+    return defaultItems;
+
+}
+
+
+// ========================================
+// DISPLAY ITEMS
+// ========================================
+
+function displayItems(items) {
+
+    const itemList =
+        document.getElementById("itemList");
+
+
+    itemList.innerHTML = "";
+
+
+    if (items.length === 0) {
+
+        itemList.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:30px;
+                color:#777;
+            ">
+                <div style="font-size:40px;">
+                    🔍
+                </div>
+
+                <p>
+                    Barang tidak ditemukan.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach(function(item, index) {
+
+        const statusText =
+            item.type === "lost"
+            ? "Barang Hilang"
+            : "Barang Ditemukan";
+
+
+        const statusClass =
+            item.type === "lost"
+            ? "status-lost"
+            : "status-found";
+
+
+        const html = `
+
+            <div class="item"
+                 data-type="${item.type}">
+
+                <div class="item-image">
+
+                    ${item.icon}
+
+                </div>
+
+
+                <div class="item-info">
+
+                    <h3>
+                        ${item.name}
+                    </h3>
+
+                    <p>
+                        📍 ${item.location}
+                    </p>
+
+                    <p>
+                        📅 ${item.date}
+                    </p>
+
+                    <span class="status ${statusClass}">
+                        ${statusText}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        itemList.innerHTML += html;
+
+    });
+
+}
+
+
+// ========================================
+// INITIAL DISPLAY
+// ========================================
+
+displayItems(getItems());
+
+
+// ========================================
+// SEARCH
+// ========================================
 
 function searchItems() {
 
     const searchInput =
-        document.querySelector(".search-box input");
+        document.getElementById("searchInput");
+
 
     const searchText =
-        searchInput.value.toLowerCase().trim();
+        searchInput.value
+        .toLowerCase()
+        .trim();
 
 
-    if (searchText === "") {
-
-        alert("Please type something to search.");
-
-        return;
-    }
+    const items = getItems();
 
 
-    const results = items.filter(item =>
+    const results =
+        items.filter(function(item) {
 
-        item.name.toLowerCase().includes(searchText) ||
+            return (
 
-        item.location.toLowerCase().includes(searchText)
+                item.name
+                    .toLowerCase()
+                    .includes(searchText)
 
-    );
+                ||
+
+                item.location
+                    .toLowerCase()
+                    .includes(searchText)
+
+            );
+
+        });
 
 
-    if (results.length === 0) {
-
-        alert(
-            "Sorry, we couldn't find that item."
-        );
-
-        return;
-    }
-
-
-    showItem(results[0]);
+    displayItems(results);
 
 }
 
 
-// ----------------------------------------
-// SHOW ITEM DETAILS
-// ----------------------------------------
+// ========================================
+// FILTER
+// ========================================
 
-function showItem(item) {
+function filterItems(type) {
 
-    document.getElementById("modalTitle").textContent =
-        item.name;
-
-    document.getElementById("modalIcon").textContent =
-        item.icon;
-
-    document.getElementById("modalDescription").textContent =
-        item.description;
-
-    document.getElementById("modalLocation").textContent =
-        "📍 " + item.location;
-
-    document.getElementById("modalDate").textContent =
-        "🕐 Found " + item.date;
+    const items = getItems();
 
 
-    document.getElementById("itemModal").classList.add("active");
+    const results =
+        items.filter(function(item) {
+
+            return item.type === type;
+
+        });
+
+
+    displayItems(results);
 
 }
 
 
-// ----------------------------------------
-// CLOSE MODAL
-// ----------------------------------------
+// ========================================
+// OPEN REPORT
+// ========================================
 
-function closeModal() {
+function reportItem() {
 
     document
-        .getElementById("itemModal")
+        .getElementById("reportOverlay")
+        .classList.add("active");
+
+}
+
+
+// ========================================
+// CLOSE REPORT
+// ========================================
+
+function closeReport() {
+
+    document
+        .getElementById("reportOverlay")
         .classList.remove("active");
 
 }
 
 
-// ----------------------------------------
-// REPORT ITEM
-// ----------------------------------------
+// ========================================
+// SELECT REPORT TYPE
+// ========================================
 
-function openReport(type) {
-
-    document
-        .getElementById("reportModal")
-        .classList.add("active");
-
-
-    document
-        .getElementById("reportTitle")
-        .textContent =
-            type === "lost"
-                ? "Report a Lost Item"
-                : "Report a Found Item";
-
+function selectReportType(type, button) {
 
     document
         .getElementById("reportType")
         .value = type;
 
+
+    const buttons =
+        document.querySelectorAll(".report-type");
+
+
+    buttons.forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
 }
 
 
-// ----------------------------------------
-// CLOSE REPORT
-// ----------------------------------------
-
-function closeReport() {
-
-    document
-        .getElementById("reportModal")
-        .classList.remove("active");
-
-}
-
-
-// ----------------------------------------
+// ========================================
 // SUBMIT REPORT
-// ----------------------------------------
+// ========================================
 
 function submitReport(event) {
 
@@ -175,24 +296,109 @@ function submitReport(event) {
     const type =
         document.getElementById("reportType").value;
 
-    const itemName =
+
+    const name =
         document.getElementById("itemName").value;
 
 
-    alert(
-        "Thank you! Your " +
-        type +
-        " item report for \"" +
-        itemName +
-        "\" has been received."
+    const location =
+        document.getElementById("itemLocation").value;
+
+
+    const date =
+        document.getElementById("itemDate").value;
+
+
+    const description =
+        document.getElementById("itemDescription").value;
+
+
+    // Convert date
+
+    const formattedDate =
+        new Date(date).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    // Choose icon
+
+    const icon =
+        type === "lost"
+        ? "❓"
+        : "📦";
+
+
+    // Create new item
+
+    const newItem = {
+
+        name: name,
+
+        location: location,
+
+        date: formattedDate,
+
+        description: description,
+
+        type: type,
+
+        icon: icon
+
+    };
+
+
+    // Get existing items
+
+    const items = getItems();
+
+
+    // Add new item to beginning
+
+    items.unshift(newItem);
+
+
+    // Save
+
+    localStorage.setItem(
+        "schoolFindItems",
+        JSON.stringify(items)
     );
 
 
+    // Update website
+
+    displayItems(items);
+
+
+    // Close form
+
     closeReport();
 
+
+    // Reset form
 
     document
         .getElementById("reportForm")
         .reset();
 
+
+    // Reset report type
+
+    document
+        .getElementById("reportType")
+        .value = "lost";
+
+
+    alert(
+        "Laporan berhasil disimpan! 🎉"
+    );
+
 }
+
+</script>
